@@ -4,15 +4,15 @@ This is a toy personal project in which I am trying to develop an algorithm that
 The full-sized images are scraped from Google images with help from [this gist](https://gist.github.com/genekogan/ebd77196e4bf0705db51f86431099e57).
 
 You need python 2.7. Personally I created a conda environment:
-'''
+```
 conda create -n scrape_img python=2.7
-'''
+```
 
 Activate the new environment and then install BeautifulSoup for web scraping:
-'''
+```
 conda activate scrape_img
 conda install -c anaconda beautiful-soup
-'''
+```
 
 I modified the file from [this gist](https://gist.github.com/genekogan/ebd77196e4bf0705db51f86431099e57) into download_img_backup.py. It can be run like the following:
 ```
