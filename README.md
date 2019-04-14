@@ -28,6 +28,23 @@ python download_aj
 
 The images will be downloaded to "/dowanloaded_data/", with subfolders like "air_jordan_1", "air_jordan_2", etc.
 
+**update 2019/04/13:**
+The above returns max of 100 images because that is the maximum number given by Google images without scrolling down or clicking one "Show more results." In case if images are not enough, I started using another code in download_img2.py which allows for downloading more pictures. To use the script, one need selenium package in python and chromedriver. I was using Ubuntu 16.04 with Chrome already installed. 
+```
+conda install selenium
+wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
+unzip chromedriver_linux64.zip
+sudo mv chromedriver /usr/bin/chromedriver
+sudo chown root:root /usr/bin/chromedriver
+sudo chmod +x /usr/bin/chromedriver
+```
+
+The script download_img2.py was adapted from the comments in [this gist](https://gist.github.com/genekogan/ebd77196e4bf0705db51f86431099e57) but the original code did not work for me. Had to tweak several places to make it work correctly. One thing to mention here is that sometimes the program get stuck at downloading one image forever, so I added a timeout if one download takes longer than 5 seconds.
+
+Run download_aj the same as before (except now it calls start_download() in the new script download_img2.py). It attempts to download 400 images for each class (sometimes there are fewer results available to download on Google image) which may take a while, so sit back and grab a drink - maybe even watch a movie!
+
+
 ## Pre-processing of data
-### manually check the images to delete wrong ones
+- Delete corrupt files
+- Delete random images (posters, drawings, fish pic?)
 ### size?
