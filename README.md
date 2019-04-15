@@ -1,6 +1,6 @@
 This is a toy personal project in which I am trying to develop an algorithm that can tell user the what sneaker it is given an image. Work in progress.
 
-## Scrap Images:
+## Scrap Images: (2019/04/13)
 The full-sized images are scraped from Google images with help from [this gist](https://gist.github.com/genekogan/ebd77196e4bf0705db51f86431099e57).
 
 You need python 2.7. Personally I created a conda environment:
@@ -47,8 +47,8 @@ Run download_aj the same as before (except now it calls start_download() in the 
 
 
 
+## Prototyping (2019/04/13)
 **update 2019/04/14:**
-## Prototyping
 I started off by using only 5 classes (Air Jordan 1 - 5) instead of doing the full 23 classes to get a quick start. If it turns out that I need to download more data or something else at least I can know early
 
 ### Pre-processing of data
@@ -92,7 +92,8 @@ I could potentially do better by training longer or using greater learning rate.
 Resnet18 is taking also image of size 224x224, but needs 3 color channels (rgb). The images I downloaded are varying (some are grayscale and some have 4 color channels CMYK). To cope with this, I found a quick trick of add "transforms.Lambda(lambda image: image.convert('RGB'))" to the transforms. There are a few other things in the code that I had to tweak before making it work with resnet18, as well as learning rate tuning, etc. 
 
 It worked amazingly well, and I was able to get ~93% test accuracy for predicting the class (vs 20% random guess). Given that the dataset's quality is relatively poor, I consider this almost a miracle.
-<p align="center"> <img src=".//tl_resnet18.png" width="400"/> </p>
+<p align="center"> <img src=".//tl_resnet18.png" width="800"/> </p>
 
 I included 100 example test results below. Incorrect predictions are highlighted in red:
-<p align="center"> <img src=".//tl_resnet18_examples.jpg" width="300"/> </p>
+<p align="center"> <img src=".//tl_resnet18_examples.jpg" width="800"/> </p>
+
