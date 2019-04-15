@@ -1,6 +1,6 @@
 This is a toy personal project in which I am trying to develop an algorithm that can tell user the what sneaker it is given an image. Work in progress.
 
-## Scrap Images: (2019/04/13)
+## Data Scraping: (2019/04/13)
 The full-sized images are scraped from Google images with help from [this gist](https://gist.github.com/genekogan/ebd77196e4bf0705db51f86431099e57).
 
 You need python 2.7. Personally I created a conda environment:
