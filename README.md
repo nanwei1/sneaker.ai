@@ -88,7 +88,7 @@ transform = transforms.Compose(
 I could potentially do better by training longer or using greater learning rate. but I estiamted that the test accuracy will be somewhere between 60-70% (vs 20% random guess) which is alright but far from satisfactory. Again, constrained by the small dataset I have, it makes sense to use transfer learning.
 
 I included 100 example test results below. Incorrect predictions are highlighted in red:
-<p align="center"> <img src=".//prototype_5/cnn_examples.jpg.jpg" width="800"/> </p>
+<p align="center"> <img src=".//prototype_5/cnn_examples.jpg" width="800"/> </p>
 
 ### Model training - Transfer Learning with ResNet18
 [Ipython Notebook](.//prototype_5/transfer_learning_resnet18.ipynb)
@@ -109,4 +109,9 @@ I trained the resnet18 again on AJ1 to 10 while screening the rest of the images
 I included 100 example test results below. Incorrect predictions are highlighted in red:
 <p align="center"> <img src=".//prototype_10/tl_resnet18_examples.jpg" width="800"/> </p>
 
+## Full Model (2019/04/15)
+The model was trained on AJ1 to AJ23 for 25 epochs. Again the test accuracy was ~92% in the end. See training history, confusion matrix, and examples below:
+<p align="center"> <img src=".//full_model/tl_resnet18.png" width="800"/> </p>
+<p align="center"> <img src=".//full_model/tl_resnet18_confusion_matrix.jpg" width="800"/> </p>
+<p align="center"> <img src=".//full_model/tl_resnet18_examples.jpg" width="800"/> </p>
 
