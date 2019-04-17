@@ -115,3 +115,29 @@ The model was trained on AJ1 to AJ23 for 25 epochs. Again the test accuracy was 
 <p align="center"> <img src=".//full_model/tl_resnet18_confusion_matrix.jpg" width="800"/> </p>
 <p align="center"> <img src=".//full_model/tl_resnet18_examples.jpg" width="800"/> </p>
 
+
+## Tensorflow 2.0 Implementation
+
+Some issues that I encountered with Tensorflow 2.0:
+- cuDNN error, will not start training. "Error : Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above." Do the following to prevent tf from using the full GPU memory somehow does the trick. Read about this issue [here](https://github.com/tensorflow/tensorflow/issues/24828).
+```
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.compat.v1.Session(config=config)
+sess.as_default()
+```
+- Program killed during training when mobilenetv2 is set as trainable: Caused by RAM running out of space. Adjusted the dataloader buffer to a smaller size to save up RAM.
+- Lots of warnings during training that says "libpng warning: iCCP: known incorrect sRGB profile": found a solution [here](https://stackoverflow.com/questions/22745076/libpng-warning-iccp-known-incorrect-srgb-profile) to remove the invalid iCCP chunk. Need pngcrush and run the following in screened_data. It takes a while due to the number of images in the folder.
+```
+find . -type f -iname '*.png' -exec pngcrush -ow -rem allb -reduce {} \;
+```
+
+Tensorflow does not have ResNet18 ready to use so I am using MobileNetV2 which is comparable in terms of size and performance:
+<p align="center"> <img src=".//pretrained_cnns.jpeg" width="600"/> </p>
+
+One can add multiple extra layers after the mobilenet to get better performance, but in my experience it is better to make the mobilenet trainable so the feature extractors can also be adjusted during training. This comes with the cost of more computation as we need to keep track of a lot more gradient vectors and perform updates with them.
+
+Example TensorBoard history:
+ <p align="center"> <img src=".//tensorboard_example.png" width="600"/> </p>
+
+
