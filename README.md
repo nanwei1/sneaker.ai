@@ -116,9 +116,9 @@ The model was trained on AJ1 to AJ23 for 25 epochs. Again the test accuracy was 
 <p align="center"> <img src=".//full_model/tl_resnet18_examples.jpg" width="800"/> </p>
 
 
-## Tensorflow 2.0 Implementation
+## Tensorflow 2.0 Implementation (2019/04/16-2019/04/18)
 
-Some issues that I encountered with Tensorflow 2.0:
+**Some issues that I encountered with Tensorflow 2.0:**
 - cuDNN error, will not start training. "Error : Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above." Do the following to prevent tf from using the full GPU memory somehow does the trick. Read about this issue [here](https://github.com/tensorflow/tensorflow/issues/24828).
 ```
 config = tf.compat.v1.ConfigProto()
@@ -140,4 +140,9 @@ One can add multiple extra layers after the mobilenet to get better performance,
 Example TensorBoard history:
  <p align="center"> <img src=".//tensorboard_example.png" width="600"/> </p>
 
+Ater adjusting the model and its hyper parameters (mobilenet trainable/non-trainable, learning rate, dropout, regularization, fc architectures, etc.) I was able to achieve around ~90% accuracy. This is pretty good in my opinion, given the poor data quality plus the fact that random rotation is not yet available in Tensorflow2.0 (tf.contrib is removed). 
+
+It is interesting to note that the model was able to catch mistakes in training labels. See image below for example. The obvious AJ1 was labeled as AJ19 but the model was clever enough to recognize it. I suspect there are more of such instances, but I am not proficient (or patient for that matter) to sort through all 23 versions or nearly 7000 images so...
+ <p align="center"> <img src=".//wrong_lalbels.png" width="400"/> </p>
+ 
 
