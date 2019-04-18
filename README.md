@@ -143,6 +143,6 @@ Example TensorBoard history:
 Ater adjusting the model and its hyper parameters (mobilenet trainable/non-trainable, learning rate, dropout, regularization, fc architectures, etc.) I was able to achieve around ~90% accuracy. This is pretty good in my opinion, given the poor data quality plus the fact that random rotation is not yet available in Tensorflow2.0 (tf.contrib is removed). 
 
 It is interesting to note that the model was able to catch mistakes in training labels. See image below for example. The obvious AJ1 was labeled as AJ19 but the model was clever enough to recognize it. I suspect there are more of such instances, but I am not proficient (or patient for that matter) to sort through all 23 versions or nearly 7000 images so...
- <p align="center"> <img src=".//wrong_lalbels.png" width="400"/> </p>
+ <p align="center"> <img src=".//wrong_labels.png" width="400"/> </p>
  
 
