@@ -119,7 +119,7 @@ The model was trained on AJ1 to AJ23 for 25 epochs. Again the test accuracy was 
 ## Tensorflow 2.0 Implementation (2019/04/16-2019/04/18)
 
 **Some issues that I encountered with Tensorflow 2.0:**
-- cuDNN error, will not start training. "Error : Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above." Do the following to prevent tf from using the full GPU memory somehow does the trick. Read about this issue [here](https://github.com/tensorflow/tensorflow/issues/24828).
+- cuDNN error, will not start training. *"Error : Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above."* Do the following to prevent tf from using the full GPU memory somehow does the trick. Read about this issue [here](https://github.com/tensorflow/tensorflow/issues/24828).
 ```
 config = tf.compat.v1.ConfigProto()
 config.gpu_options.allow_growth = True
@@ -127,9 +127,14 @@ sess = tf.compat.v1.Session(config=config)
 sess.as_default()
 ```
 - Program killed during training when mobilenetv2 is set as trainable: Caused by RAM running out of space. Adjusted the dataloader buffer to a smaller size to save up RAM.
-- Lots of warnings during training that says "libpng warning: iCCP: known incorrect sRGB profile": found a solution [here](https://stackoverflow.com/questions/22745076/libpng-warning-iccp-known-incorrect-srgb-profile) to remove the invalid iCCP chunk. Need pngcrush and run the following in screened_data. It takes a while due to the number of images in the folder.
+- Lots of warnings during training that says *"libpng warning: iCCP: known incorrect sRGB profile"*: found a solution [here](https://stackoverflow.com/questions/22745076/libpng-warning-iccp-known-incorrect-srgb-profile) to remove the invalid iCCP chunk. Need pngcrush and run the following in screened_data. It takes a while due to the number of images in the folder.
 ```
 find . -type f -iname '*.png' -exec pngcrush -ow -rem allb -reduce {} \;
+```
+- After training with the jupyter notebook for several times, I got this error *"TensorBoard could not bind to port 6006."* I believe this is caused by tensorboard not closed properly in Jupyter notebook as one would do in the command line. One work-around that I used for this error is to manualy kill the previous tensorboard processes (replace PID with the process ID found by the first command):
+```
+ps -ef | grep tensorboard
+kill -9 PID
 ```
 
 Tensorflow does not have ResNet18 ready to use so I am using MobileNetV2 which is comparable in terms of size and performance:
@@ -144,5 +149,11 @@ Ater adjusting the model and its hyper parameters (mobilenet trainable/non-train
 
 It is interesting to note that the model was able to catch mistakes in training labels. See image below for example. The obvious AJ1 was labeled as AJ19 but the model was clever enough to recognize it. I suspect there are more of such instances, but I am not proficient (or patient for that matter) to sort through all 23 versions or nearly 7000 images so...
  <p align="center"> <img src=".//wrong_labels.png" width="400"/> </p>
+
+Never mind - after tuning the model and training for countless times, the test accuracy was only able to reach the high 80s. I have tried tuning the learning rate, changing the fc layers, toggling the "trainable" of the mobilenet, adjusting dropout and regularization, etc. because one of my previous suspicion was overfitting (high training accuracy but relatively low test accuracy). It is true that there is a some slight overfitting, but the main culprit was data quality. I used a trained model to display images that got wrongly classified, and manully went over them. Sure enough - there were wrong labels, random images not related to shoes, really bad angle shots that does not give enough information. I spent some time sorting through those.
+
+Another thing that bothered me a lot was training time. Essentially the training step involves loading the full-size images and transform them (with some random augmentation) into 224x224 that the model can take. This was fine for a while, but as I was tuning the model, this became a headache. To this end I used *skimage* to convert all images to 256x256 with [this script](.//image_preprocessing.ipynb). This almost doubled my training speed!
+
+Because tensorflow2.0 removed *tf.contrib*, there was no built-in utility that I could use to randomly rotate the images for data augmentation. I later found that they have migrated to [*tensorflow addons*](https://github.com/tensorflow/addons). However, the random rotation almost doubled training time which I guess was because it was not optimized with the rest of tf2.0. With my input image size shrunken, I think they can be back in use. Let's see...
  
 
