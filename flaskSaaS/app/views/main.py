@@ -6,6 +6,7 @@ from datetime import datetime
 
 import tensorflow as tf
 import matplotlib.pyplot as plt
+from matplotlib import cm
 import numpy as np
 import skimage
 
@@ -88,14 +89,33 @@ def logits_to_probs(logits):
 def plot_probs(probs):
     indices = np.argsort(probs)[::-1]
     probs = np.sort(probs)[::-1]
+
     top_k = 3
     probs_temp = np.append(probs[:top_k],np.sum(probs[top_k:]))
     keys = ['AJ '+str(i+1) for i in indices[:top_k]] + ['Others']
-    explode = (0.1, 0.05, 0.05, 0)
-    fig1, ax1 = plt.subplots(figsize=(10,10))
-    ax1.pie(probs_temp, explode=explode, labels=keys, autopct='%1.1f%%',
+    explode = (0.1, 0, 0, 0)
+    fig, ax = plt.subplots(figsize=(10,10))
+    ax.pie(probs_temp, explode=explode, labels=keys, autopct='%1.1f%%',
             shadow=True, startangle=90)
-    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    ## bar plot with color based on probability values
+    ## https://stackoverflow.com/questions/31313606/pyplot-matplotlib-bar-chart-with-fill-color-depending-on-value/31350246
+    # fig, ax = plt.subplots(figsize=(16,16))
+    # colors = cm.Wistia(probs / float(max(probs)))
+    # plot = ax.scatter(probs, probs, c = probs, cmap = 'hsv')
+    # fig.clf()
+    # fig, ax = plt.subplots(figsize=(10,10))
+    # # fig.colorbar(plot)
+    # labels = tuple(['AJ '+str(indices[i]+1) for i in range(23)])
+    # y_pos = np.arange(len(labels))
+    # ax.barh(y_pos, probs, color = colors)
+    # ax.set_yticks(y_pos)
+    # ax.set_yticklabels(labels,fontsize=12)
+    # ax.invert_yaxis()
+    ax.set_title('Most Likely Match: Air Jordan ' + str(indices[0]+1), fontsize=18)
+
+
     # print(app.config['UPLOAD_FOLDER'])
     # print(os.path.dirname(app.config['UPLOAD_FOLDER']))
     # print(os.path.join(os.path.dirname(app.config['UPLOAD_FOLDER']), 'result/result.png'))
