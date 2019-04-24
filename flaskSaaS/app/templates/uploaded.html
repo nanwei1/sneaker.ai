@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block head %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+
+<body>
+<center>
+<h2 style="color: #CD853F"">You've uploaded {{user_image}}</h2>
+<img src="{{ url_for('static', filename='img/upload/'+user_image) }}" width="500"/>
+
+        <!-- {{ predictions }} -->
+<br>
+<br>
+<br>
+<h2 style="color: #CD853F"">Results</h2>
+
+<img src="{{url_for('static', filename='img/result/'+result_iamge) }}" width="500"/>
+
+</center>
+</body>
+</html>
+
+
+    <title>Index</title>
+</head>
+<body>
+</body>
+</html>
+
+
+{% endblock %}

@@ -116,7 +116,7 @@ The model was trained on AJ1 to AJ23 for 25 epochs. Again the test accuracy was 
 <p align="center"> <img src=".//full_model/tl_resnet18_examples.jpg" width="800"/> </p>
 
 
-## Tensorflow 2.0 Implementation (2019/04/16-2019/04/18)
+## Tensorflow 2.0 Implementation (2019/04/16-2019/04/21)
 
 **Some issues that I encountered with Tensorflow 2.0:**
 - cuDNN error, will not start training. *"Error : Failed to get convolution algorithm. This is probably because cuDNN failed to initialize, so try looking to see if a warning log message was printed above."* Do the following to prevent tf from using the full GPU memory somehow does the trick. Read about this issue [here](https://github.com/tensorflow/tensorflow/issues/24828).
@@ -156,4 +156,13 @@ Another thing that bothered me a lot was training time. Essentially the training
 
 Because tensorflow2.0 removed *tf.contrib*, there was no built-in utility that I could use to randomly rotate the images for data augmentation. I later found that they have migrated to [*tensorflow addons*](https://github.com/tensorflow/addons). However, the random rotation almost doubled training time which I guess was because it was not optimized with the rest of tf2.0. With my input image size shrunken, I think they can be back in use. Let's see...
  
+## Local Deployment Using flaskSaaS (2019/04/22 - )
+Before trying out cloud-based web app hosting services, I think it is a great learning experience to try do host the web app locally to see how things play out. This is my first experience with backend developments.
+
+Luckily there are tools and templates readily available that can supercharge the start. I was inspired by Siraj Raval's [AI Startup Protoype](https://www.youtube.com/watch?v=NzmoPqte4V4) which used this [flaskSaaS template](https://github.com/alectrocute/flaskSaaS) by ALec Armbruster. Many things have already been taken care of, but there are still many things to sort out before being able to upload an image of random size on a web and process it using the neural net. I had to quickly get some html and css learning on the fly but it was not bad overall given that a minimum viable product was made within a day or two.
+
+As a side note, a difficuty I faced was that the previous saved tensorflow models could not be loaded properly [(see here)](https://github.com/tensorflow/tensorflow/issues/26814). A solution is to update my current tf2.0 preview to a dev version which I am not very keen about. I instead retrained the model and only saved the weights instead of the whole model. See the ipython notebook for details.
+
+A quick demo (with a not-so-well-trained neural net) is in [this folder](.//demo_vids). The model was trained for fewer epochs because I wanted to see the web app working first.
+
 
