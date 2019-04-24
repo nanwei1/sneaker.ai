@@ -68,7 +68,7 @@ def img_preprocessing(path):
         image = np.repeat(image[:, :, np.newaxis], 3, axis=2)
     # convert rgba to rgb
     elif image.shape[2]==4:
-        image = img_rgb = skimage.color.rgba2rgb(img_rgba)
+        image = skimage.color.rgba2rgb(image)
 
     H, W = image.shape[0], image.shape[1]
     if H>W:
