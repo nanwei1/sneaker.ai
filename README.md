@@ -165,4 +165,4 @@ As a side note, a difficuty I faced was that the previous saved tensorflow model
 
 A quick demo (with a not-so-well-trained neural net) is in [this folder](.//demo_vids). The model was trained for fewer epochs because I wanted to see the web app working first.
 
-
+I've retrained the network and uploaded a [demo video](https://www.youtube.com/watch?v=hmd7DfU2o3I). (For convenience a account was registered prior with username "johndoe@johndoe.com" and password "johndoe") There was an error message around 1:58; this was because the test image has 4 channels (RGBY) instead of 3 channels (RGB) that the script was able to handel. Inference takes some time in this demo, because for this MVP, I coded it such that the model has to be initialized every time the user uploads an image. This can be easily optimized for production so that the model is loaded when the server starts.
