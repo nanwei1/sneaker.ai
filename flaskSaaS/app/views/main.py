@@ -66,6 +66,10 @@ def img_preprocessing(path):
     # convert grayscale images to rgb
     if image.ndim ==2:
         image = np.repeat(image[:, :, np.newaxis], 3, axis=2)
+    # convert rgba to rgb
+    elif image.shape[2]==4:
+        image = img_rgb = skimage.color.rgba2rgb(img_rgba)
+
     H, W = image.shape[0], image.shape[1]
     if H>W:
         H_new, W_new = 224, round(W/H*224)
