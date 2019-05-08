@@ -3,8 +3,11 @@ First terminal to start tf_serving:
 docker run -p 8501:8501 --name tfserving_sneakerai --mount type=bind,source=/home/nan/sneaker_ai/tf_serving,target=/models/sneaker_ai -e MODEL_NAME=sneaker_ai -t tensorflow/serving &
 
 
+If you have run the above before, do the following:
+docker start tfserving_sneakerai
+
 
 
 Another terminal to run client request:
 
-python3 sneaker_ai/tf_serving/tf_client.py
+python3 ~/sneaker_ai/tf_serving/tf_client.py
